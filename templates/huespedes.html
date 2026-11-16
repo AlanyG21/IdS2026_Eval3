@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white fw-bold">Registrar Huésped</div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-2">
+                        <label class="form-label">RUT o Pasaporte</label>
+                        <input type="text" name="rut_pasaporte" class="form-control" placeholder="12.345.678-9" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Nombre Completo</label>
+                        <input type="text" name="nombre_completo" class="form-control" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Teléfono</label>
+                        <input type="text" name="telefono" class="form-control" placeholder="+569..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nacionalidad</label>
+                        <input type="text" name="nacionalidad" value="Chilena" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Registrar Huésped</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white fw-bold">Huéspedes Registrados</div>
+            <div class="card-body table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>RUT / Pasaporte</th>
+                            <th>Nombre Completo</th>
+                            <th>Contacto</th>
+                            <th>Nacionalidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for g in huespedes %}
+                        <tr>
+                            <td><strong>{{ g.rut_pasaporte }}</strong></td>
+                            <td>{{ g.nombre_completo }}</td>
+                            <td>{{ g.email }}<br><small class="text-muted">{{ g.telefono }}</small></td>
+                            <td>{{ g.nacionalidad }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white text-center">
+                <h5 class="mb-0">Hotel Ríos del Sur</h5>
+                <small>Acceso al Sistema de Gestión</small>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Correo Institucional</label>
+                        <input type="email" name="email" class="form-control" placeholder="admin@hotelriosdelsur.cl" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+                </form>
+                <hr>
+                <small class="text-muted d-block">
+                    <strong>Usuario demo:</strong> admin@hotelriosdelsur.cl<br>
+                    <strong>Clave demo:</strong> Hotel2026!
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

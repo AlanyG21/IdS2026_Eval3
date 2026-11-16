@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white fw-bold">Registrar Nueva Habitación</div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-2">
+                        <label class="form-label">Número de Habitación</label>
+                        <input type="text" name="numero" class="form-control" placeholder="Ej: 302" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Tipo</label>
+                        <select name="tipo" class="form-select" required>
+                            <option value="Single">Single</option>
+                            <option value="Doble">Doble</option>
+                            <option value="Matrimonial">Matrimonial</option>
+                            <option value="Suite">Suite</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Capacidad (personas)</label>
+                        <input type="number" name="capacidad" min="1" max="10" class="form-control" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Precio por Noche ($ CLP)</label>
+                        <input type="number" name="precio_noche" min="1000" step="500" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea name="descripcion" class="form-control" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Guardar Habitación</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white fw-bold">Listado y Control de Estado</div>
+            <div class="card-body table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>N°</th>
+                            <th>Tipo</th>
+                            <th>Cap.</th>
+                            <th>Precio</th>
+                            <th>Estado Actual</th>
+                            <th>Cambiar Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for h in habitaciones %}
+                        <tr>
+                            <td><strong>{{ h.numero }}</strong></td>
+                            <td>{{ h.tipo }}</td>
+                            <td>{{ h.capacidad }}</td>
+                            <td>${{ "{:,.0f}".format(h.precio_noche) }}</td>
+                            <td>
+                                {% if h.estado == 'disponible' %}
+                                    <span class="badge bg-success">Disponible</span>
+                                {% elif h.estado == 'ocupada' %}
+                                    <span class="badge bg-danger">Ocupada</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Mantenimiento</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form method="POST" action="{{ url_for('cambiar_estado_habitacion', id=h.id) }}" class="d-flex gap-1">
+                                    <select name="estado" class="form-select form-select-sm">
+                                        <option value="disponible" {% if h.estado=='disponible' %}selected{% endif %}>Disponible</option>
+                                        <option value="ocupada" {% if h.estado=='ocupada' %}selected{% endif %}>Ocupada</option>
+                                        <option value="mantenimiento" {% if h.estado=='mantenimiento' %}selected{% endif %}>Mantenimiento</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">OK</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

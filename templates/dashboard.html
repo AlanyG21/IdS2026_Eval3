@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-3">Panel de Control y Ocupación</h3>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-bg-success">
+            <div class="card-body">
+                <h6>Habitaciones Disponibles</h6>
+                <h2>{{ stats.disponibles }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-danger">
+            <div class="card-body">
+                <h6>Habitaciones Ocupadas</h6>
+                <h2>{{ stats.ocupadas }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-warning">
+            <div class="card-body">
+                <h6>En Mantenimiento</h6>
+                <h2>{{ stats.mantenimiento }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-primary">
+            <div class="card-body">
+                <h6>Reservas Activas</h6>
+                <h2>{{ stats.reservas_activas }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white fw-bold">Consultar Disponibilidad por Fechas</div>
+    <div class="card-body">
+        <form method="GET" class="row g-3 mb-3">
+            <div class="col-md-4">
+                <label class="form-label">Fecha de Entrada</label>
+                <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Fecha de Salida</label>
+                <input type="date" name="fecha_fin" value="{{ fecha_fin }}" class="form-control" required>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Buscar Disponibilidad</button>
+            </div>
+        </form>
+
+        {% if fecha_inicio and fecha_fin %}
+            <h6>Resultados para el período {{ fecha_inicio }} al {{ fecha_fin }}:</h6>
+            {% if habitaciones_disponibles %}
+                <table class="table table-bordered table-sm mt-2">
+                    <thead class="table-light">
+                        <tr>
+                            <th>N°</th>
+                            <th>Tipo</th>
+                            <th>Capacidad</th>
+                            <th>Precio / Noche</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for h in habitaciones_disponibles %}
+                        <tr>
+                            <td><strong>{{ h.numero }}</strong></td>
+                            <td>{{ h.tipo }}</td>
+                            <td>{{ h.capacidad }} pers.</td>
+                            <td>${{ "{:,.0f}".format(h.precio_noche) }}</td>
+                            <td>{{ h.descripcion }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-danger mb-0">No hay habitaciones disponibles para el rango seleccionado.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
